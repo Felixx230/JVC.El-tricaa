@@ -1,113 +1,103 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Depoimentos JVC Elétrica</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JVC Elétrica - Depoimentos</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f3f3f3;
-            padding: 20px;
+            background: #111;
+            color: #fff;
             margin: 0;
+            padding: 0;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2em;
-            color: #333;
-        }
-
-        #depoimentos-container {
-            max-width: 700px;
-            margin: auto;
-        }
-
-        .depoimento-card {
-            background: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .depoimento-card h3 {
-            margin: 0 0 10px;
-            font-size: 1.4em;
-            color: #555;
-        }
-
-        .nota {
-            font-size: 1.2em;
-            color: #FFA500;
-            margin-bottom: 10px;
-        }
-
-        .texto {
-            font-size: 1em;
-            line-height: 1.5;
-            color: #333;
-        }
-
-        footer {
+        h1 {
             text-align: center;
             margin-top: 40px;
-            color: #777;
+            color: #ffeb3b;
+            text-shadow: 0 0 10px #ff0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: auto;
+            margin-top: 40px;
+        }
+
+        .depoimento {
+            background: #222;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 5px solid #ffeb3b;
+            box-shadow: 0 0 12px rgba(255, 255, 0, 0.2);
+        }
+
+        .depoimento h3 {
+            margin: 0;
+            color: #ffeb3b;
+        }
+
+        .estrelas {
+            font-size: 20px;
+            margin: 5px 0;
+        }
+
+        #lista-depoimentos p {
+            margin: 5px 0 0;
         }
     </style>
 </head>
-<body>
-    <header>
-        <h1>Depoimentos dos Clientes</h1>
-    </header>
 
-    <div id="depoimentos-container">
-        <p style="text-align:center; font-size:18px;">Carregando depoimentos...</p>
+<body>
+
+    <h1>Depoimentos</h1>
+
+    <div class="container">
+        <div id="lista-depoimentos">
+            <p>Carregando depoimentos...</p>
+        </div>
     </div>
 
     <script>
-      // Faz a requisição para a API de depoimentos (Apps Script)
-      fetch("https://script.google.com/macros/s/AKfycbyyah4tXoPwGrUXBBauFDPphZTIMbSlsKFN6uS_EQQxLvBjN6864n8FKYAze11VrQW6/exec")
-        .then(response => response.json())
-        .then(data => {
-          const container = document.getElementById("depoimentos-container");
-          container.innerHTML = "";
+        async function carregarDepoimentos() {
+            const container = document.getElementById("lista-depoimentos");
 
-          if (!data || data.length === 0) {
-            container.innerHTML = "<p>Nenhum depoimento encontrado.</p>";
-            return;
-          }
+            try {
+                const resposta = await fetch("https://script.google.com/macros/s/AKfycbxnUNvyO3YJtqTLtSA0KXMw8GxK5OyPEguLJPee4LSiWvaMRIABHMdlM3HdPdbnHV4L/exec");
+                const dados = await resposta.json();
 
-          data.forEach(item => {
-            const card = document.createElement("div");
-            card.className = "depoimento-card";
-            card.innerHTML = `
-              <h3>${item.nome}</h3>
-              <p class="nota">⭐ ${item.nota}</p>
-              <p class="texto">${item.texto}</p>
-            `;
-            container.appendChild(card);
-          });
-        })
-        .catch(error => {
-          console.error("Erro ao carregar depoimentos:", error);
-          document.getElementById("depoimentos-container").innerHTML = 
-            "<p style='color:red; text-align:center;'>Erro ao carregar depoimentos.</p>";
-        });
+                console.log(dados);
+
+                container.innerHTML = "";
+
+                if (!dados.length) {
+                    container.innerHTML = "<p>Nenhum depoimento encontrado.</p>";
+                    return;
+                }
+
+                dados.forEach(dep => {
+                    container.innerHTML += `
+                        <div class="depoimento">
+                            <h3>${dep.nome}</h3>
+                            <p class="estrelas">${"⭐".repeat(dep.nota)}</p>
+                            <p>${dep.texto}</p>
+                        </div>
+                    `;
+                });
+
+            } catch (erro) {
+                container.innerHTML = "<p style='color:red;'>Erro ao carregar depoimentos.</p>";
+                console.error("ERRO:", erro);
+            }
+        }
+
+        carregarDepoimentos();
     </script>
 
-    <footer>
-        <p>&copy; 2025 JVC Elétrica</p>
-    </footer>
 </body>
 </html>
-
-   
-
-   
-  

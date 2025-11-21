@@ -1,92 +1,168 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Depoimentos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JVC Elétrica</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: white;
+        }
 
-<style>
-    body {
-        background: #111;
-        color: white;
-        font-family: Arial, sans-serif;
-        text-align: center;
-    }
+        header {
+            background-color: #111;
+            padding: 10px 20px;
+            text-align: center;
+            border-bottom: 2px solid yellow;
+        }
 
-    h2 {
-        font-size: 40px;
-        color: yellow;
-        text-shadow: 0 0 15px yellow;
-        margin-top: 40px;
-    }
+        header h1 {
+            margin: 0;
+            color: yellow;
+            text-shadow: 0 0 10px yellow;
+        }
 
-    .depoimento {
-        background: #222;
-        border-left: 5px solid yellow;
-        padding: 15px;
-        margin: 20px auto;
-        width: 90%;
-        max-width: 600px;
-        border-radius: 10px;
-        text-align: left;
-    }
+        .logo {
+            width: 150px;
+            display: block;
+            margin: 20px auto;
+        }
 
-    .nome {
-        font-weight: bold;
-        color: #ffea00;
-        margin-bottom: 5px;
-    }
+        .descricao {
+            text-align: center;
+            font-size: 18px;
+            margin: 20px;
+        }
 
-    .avaliacao {
-        color: gold;
-        font-size: 20px;
-        margin-bottom: 8px;
-    }
-</style>
+        .contato {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .contato a {
+            display: inline-block;
+            background-color: yellow;
+            color: black;
+            padding: 10px 20px;
+            font-size: 18px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px;
+            font-weight: bold;
+        }
+
+        .depoimentos {
+            margin: 40px auto;
+            max-width: 900px;
+            padding: 20px;
+            background-color: #181818;
+            border-radius: 10px;
+        }
+
+        .depoimentos h2 {
+            text-align: center;
+            color: yellow;
+            text-shadow: 0 0 10px yellow;
+        }
+
+        .lista-depoimentos {
+            margin-top: 20px;
+        }
+
+        .card-depoimento {
+            background-color: #222;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid yellow;
+            border-radius: 5px;
+        }
+
+        .nome {
+            font-weight: bold;
+            font-size: 18px;
+            color: yellow;
+        }
+
+        .avaliacao {
+            color: gold;
+            font-size: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 2px solid yellow;
+            color: yellow;
+        }
+    </style>
 </head>
-
 <body>
 
-<h2>Depoimentos</h2>
-<div id="lista"></div>
+<header>
+    <h1>JVC Elétrica</h1>
+</header>
+
+<section class="descricao">
+    <p>Profissional especializado em serviços elétricos residenciais e comerciais.</p>
+</section>
+
+<section class="contato">
+    <a href="https://wa.me/5534998382783" target="_blank">📞 Chamar no WhatsApp</a>
+</section>
+
+<section class="depoimentos">
+    <h2>Depoimentos</h2>
+    <div class="lista-depoimentos" id="listaDepoimentos">
+        <p>Carregando depoimentos...</p>
+    </div>
+</section>
+
+<footer>
+    © 2025 JVC Elétrica — Todos os direitos reservados.
+</footer>
 
 <script>
-    async function carregarDepoimentos() {
-        const url = "https://script.google.com/macros/s/AKfycbxq4dFEOK-i693U8-vxN0wVL6JP0lmfABd2mAxo60qOlNfvqZwEzWQlxyd4M0oL1vMmRg/exec";
+async function carregarDepoimentos() {
+    const url = "https://script.google.com/macros/s/AKfycbxdEmicgXJDtu3cpuI9I2ORHy1arrZQDztGH2u9alA41EsDQR-1PXOqGc-hxVo8spR7fg/exec";
 
-        try {
-            const resposta = await fetch(url);
-            const dados = await resposta.json();
+    try {
+        const resposta = await fetch(url);
+        const dados = await resposta.json();
 
-            const container = document.getElementById("lista");
-            container.innerHTML = "";
+        const lista = document.getElementById("listaDepoimentos");
+        lista.innerHTML = "";
 
-            if (!dados || dados.length === 0) {
-                container.innerHTML = "<p>Nenhum depoimento encontrado.</p>";
-                return;
-            }
-
-            dados.forEach(item => {
-                const bloco = document.createElement("div");
-                bloco.className = "depoimento";
-
-                bloco.innerHTML = `
-                    <div class="nome">${item.nome}</div>
-                    <div class="avaliacao">${item.avaliacao}</div>
-                    <div class="texto">${item.depoimento}</div>
-                `;
-
-                container.appendChild(bloco);
-            });
-
-        } catch (erro) {
-            console.error("Erro ao buscar depoimentos:", erro);
-            document.getElementById("lista").innerHTML =
-                "<p>Erro ao carregar depoimentos.</p>";
+        if (!dados || dados.length === 0) {
+            lista.innerHTML = "<p>Nenhum depoimento encontrado.</p>";
+            return;
         }
-    }
 
-    carregarDepoimentos();
+        dados.forEach(dep => {
+            const card = document.createElement("div");
+            card.className = "card-depoimento";
+
+            card.innerHTML = `
+                <p class="nome">${dep.nome}</p>
+                <p class="avaliacao">${"⭐".repeat(dep.avaliacao)}</p>
+                <p>${dep.depoimento}</p>
+            `;
+
+            lista.appendChild(card);
+        });
+
+    } catch (erro) {
+        document.getElementById("listaDepoimentos").innerHTML =
+            "<p>Erro ao carregar depoimentos.</p>";
+        console.error("Erro:", erro);
+    }
+}
+
+carregarDepoimentos();
 </script>
 
 </body>

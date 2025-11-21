@@ -1,103 +1,93 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JVC Elétrica - Depoimentos</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Depoimentos</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #111;
-            color: #fff;
-            margin: 0;
-            padding: 0;
-        }
+<style>
+    body {
+        background: #111;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
 
-        h1 {
-            text-align: center;
-            margin-top: 40px;
-            color: #ffeb3b;
-            text-shadow: 0 0 10px #ff0;
-        }
+    h2 {
+        font-size: 40px;
+        color: yellow;
+        text-shadow: 0 0 15px yellow;
+        margin-top: 40px;
+    }
 
-        .container {
-            width: 90%;
-            max-width: 800px;
-            margin: auto;
-            margin-top: 40px;
-        }
+    .depoimento {
+        background: #222;
+        border-left: 5px solid yellow;
+        padding: 15px;
+        margin: 20px auto;
+        width: 90%;
+        max-width: 600px;
+        border-radius: 10px;
+        text-align: left;
+    }
 
-        .depoimento {
-            background: #222;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            border-left: 5px solid #ffeb3b;
-            box-shadow: 0 0 12px rgba(255, 255, 0, 0.2);
-        }
+    .nome {
+        font-weight: bold;
+        color: #ffea00;
+        margin-bottom: 5px;
+    }
 
-        .depoimento h3 {
-            margin: 0;
-            color: #ffeb3b;
-        }
-
-        .estrelas {
-            font-size: 20px;
-            margin: 5px 0;
-        }
-
-        #lista-depoimentos p {
-            margin: 5px 0 0;
-        }
-    </style>
+    .avaliacao {
+        color: gold;
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+</style>
 </head>
 
 <body>
 
-    <h1>Depoimentos</h1>
+<h2>Depoimentos</h2>
+<div id="lista"></div>
 
-    <div class="container">
-        <div id="lista-depoimentos">
-            <p>Carregando depoimentos...</p>
-        </div>
-    </div>
+<script>
+    async function carregarDepoimentos() {
+        const url = "https://script.google.com/macros/s/AKfycbxq4dFEOK-i693U8-vxN0wVL6JP0lmfABd2mAxo60qOlNfvqZwEzWQlxyd4M0oL1vMmRg/exec";
 
-    <script>
-        async function carregarDepoimentos() {
-            const container = document.getElementById("lista-depoimentos");
+        try {
+            const resposta = await fetch(url);
+            const dados = await resposta.json();
 
-            try {
-                const resposta = await fetch("https://script.google.com/macros/s/AKfycbxnUNvyO3YJtqTLtSA0KXMw8GxK5OyPEguLJPee4LSiWvaMRIABHMdlM3HdPdbnHV4L/exec");
-                const dados = await resposta.json();
+            const container = document.getElementById("lista");
+            container.innerHTML = "";
 
-                console.log(dados);
-
-                container.innerHTML = "";
-
-                if (!dados.length) {
-                    container.innerHTML = "<p>Nenhum depoimento encontrado.</p>";
-                    return;
-                }
-
-                dados.forEach(dep => {
-                    container.innerHTML += `
-                        <div class="depoimento">
-                            <h3>${dep.nome}</h3>
-                            <p class="estrelas">${"⭐".repeat(dep.nota)}</p>
-                            <p>${dep.texto}</p>
-                        </div>
-                    `;
-                });
-
-            } catch (erro) {
-                container.innerHTML = "<p style='color:red;'>Erro ao carregar depoimentos.</p>";
-                console.error("ERRO:", erro);
+            if (!dados || dados.length === 0) {
+                container.innerHTML = "<p>Nenhum depoimento encontrado.</p>";
+                return;
             }
-        }
 
-        carregarDepoimentos();
-    </script>
+            dados.forEach(item => {
+                const bloco = document.createElement("div");
+                bloco.className = "depoimento";
+
+                bloco.innerHTML = `
+                    <div class="nome">${item.nome}</div>
+                    <div class="avaliacao">${item.avaliacao}</div>
+                    <div class="texto">${item.depoimento}</div>
+                `;
+
+                container.appendChild(bloco);
+            });
+
+        } catch (erro) {
+            console.error("Erro ao buscar depoimentos:", erro);
+            document.getElementById("lista").innerHTML =
+                "<p>Erro ao carregar depoimentos.</p>";
+        }
+    }
+
+    carregarDepoimentos();
+</script>
 
 </body>
 </html>

@@ -1,181 +1,113 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JVC Elétrica</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0a0a0a;
-      color: white;
-    }
-    header {
-      background: black;
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 999;
-      border-bottom: 2px solid yellow;
-    }
-    header img {
-      height: 60px;
-    }
-    nav a {
-      color: yellow;
-      margin-left: 20px;
-      text-decoration: none;
-      font-size: 18px;
-      transition: 0.3s;
-    }
-    nav a:hover {
-      text-shadow: 0 0 10px yellow;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depoimentos JVC Elétrica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            padding: 20px;
+            margin: 0;
+        }
 
-    section {
-      padding: 100px 20px;
-      max-width: 1100px;
-      margin: auto;
-    }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
 
-    h1, h2 {
-      color: yellow;
-      text-shadow: 0 0 10px yellow;
-    }
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+            color: #333;
+        }
 
-    .servicos {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
+        #depoimentos-container {
+            max-width: 700px;
+            margin: auto;
+        }
 
-    .card {
-      padding: 20px;
-      background: #111;
-      border-left: 4px solid yellow;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(255,255,0,0.3);
-      transition: 0.3s;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 25px rgba(255,255,0,0.6);
-    }
+        .depoimento-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
 
-    /* Depoimentos */
-    .depoimento-card {
-      background: #111;
-      padding: 20px;
-      border-left: 4px solid yellow;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      box-shadow: 0 0 15px rgba(255,255,0,0.3);
-    }
+        .depoimento-card h3 {
+            margin: 0 0 10px;
+            font-size: 1.4em;
+            color: #555;
+        }
 
-    /* WhatsApp flutuante */
-    #zap {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #25D366;
-      padding: 15px 18px;
-      border-radius: 50%;
-      font-size: 28px;
-      text-decoration: none;
-      color: white;
-      box-shadow: 0 0 20px yellow;
-      animation: eletrico 1s infinite alternate;
-    }
+        .nota {
+            font-size: 1.2em;
+            color: #FFA500;
+            margin-bottom: 10px;
+        }
 
-    @keyframes eletrico {
-      from { box-shadow: 0 0 10px yellow; }
-      to   { box-shadow: 0 0 25px yellow; }
-    }
+        .texto {
+            font-size: 1em;
+            line-height: 1.5;
+            color: #333;
+        }
 
-    iframe {
-      width: 100%;
-      height: 420px;
-      border: none;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(255,255,0,0.3);
-    }
-  </style>
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #777;
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <h1>Depoimentos dos Clientes</h1>
+    </header>
 
-<header>
-  <img src="/mnt/data/jvc_logo.jpeg" alt="Logo JVC" />
-  <nav>
-    <a href="#inicio">Início</a>
-    <a href="#servicos">Serviços</a>
-    <a href="#depoimentos">Depoimentos</a>
-    <a href="#contato">Contato</a>
-  </nav>
-</header>
+    <div id="depoimentos-container">
+        <p style="text-align:center; font-size:18px;">Carregando depoimentos...</p>
+    </div>
 
-<section id="inicio">
-  <h1>JVC Elétrica</h1>
-  <p>Especialistas em serviços elétricos, climatização e instalação profissional.</p>
-</section>
+    <script>
+      // Faz a requisição para a API de depoimentos (Apps Script)
+      fetch("https://script.google.com/macros/s/AKfycbwRyjsQyfFJTgvhQhMopnmnOuTeIiz67Yn46NSmNVGEYPZHh4j3ed36s0rES2WBN-s-xw/exec")
+        .then(response => response.json())
+        .then(data => {
+          const container = document.getElementById("depoimentos-container");
+          container.innerHTML = "";
 
-<section id="servicos">
-  <h2>Serviços</h2>
-  <div class="servicos">
-    <div class="card">Manutenção elétrica completa</div>
-    <div class="card">Manutenção de ar condicionado</div>
-    <div class="card">Instalações elétricas</div>
-    <div class="card">Projeto e otimização de circuitos</div>
-    <div class="card">Automação residencial</div>
-    <div class="card">Troca de disjuntores e painéis</div>
-  </div>
-</section>
+          if (!data || data.length === 0) {
+            container.innerHTML = "<p>Nenhum depoimento encontrado.</p>";
+            return;
+          }
 
-<section id="depoimentos">
-  <h2>Depoimentos</h2>
-  <div id="lista-depoimentos">Carregando depoimentos...</div>
+          data.forEach(item => {
+            const card = document.createElement("div");
+            card.className = "depoimento-card";
+            card.innerHTML = `
+              <h3>${item.nome}</h3>
+              <p class="nota">⭐ ${item.nota}</p>
+              <p class="texto">${item.texto}</p>
+            `;
+            container.appendChild(card);
+          });
+        })
+        .catch(error => {
+          console.error("Erro ao carregar depoimentos:", error);
+          document.getElementById("depoimentos-container").innerHTML = 
+            "<p style='color:red; text-align:center;'>Erro ao carregar depoimentos.</p>";
+        });
+    </script>
 
-  <h3>Enviar Depoimento</h3>
-  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdEh4BtMxsvOV5bDrWMQWlhGVpKsa14dfHgc7W34f-lGahwpQ/viewform?embedded=true"></iframe>
-</section>
-
-<section id="contato">
-  <h2>Contato</h2>
-  <p>Entre em contato pelo WhatsApp:</p>
-  <p><strong>(66) 9613-9472</strong></p>
-</section>
-
-<a id="zap" href="https://wa.me/556696139472" target="_blank">💬</a>
-
-<script>
-  async function carregarDepoimentos() {
-    try {
-      const resposta = await fetch("https://script.google.com/macros/s/AKfycbwRyjsQyfFJTgvhQhMopnmnOuTeIiz67Yn46NSmNVGEYPZHh4j3ed36s0rES2WBN-s-xw/exec");
-      const dados = await resposta.json();
-      const area = document.getElementById("lista-depoimentos");
-      area.innerHTML = "";
-
-      dados.forEach(item => {
-        const card = document.createElement("div");
-        card.className = "depoimento-card";
-        card.innerHTML = `
-          <p>“${item.texto}”</p>
-          <strong>— ${item.nome} (${item.nota})</strong>
-        `;
-        area.appendChild(card);
-      });
-    } catch (erro) {
-      document.getElementById("lista-depoimentos").innerHTML = "<p>Erro ao carregar depoimentos.</p>";
-      console.error(erro);
-    }
-  }
-
-  carregarDepoimentos();
-</script>
-
+    <footer>
+        <p>&copy; 2025 JVC Elétrica</p>
+    </footer>
 </body>
 </html>
+
+   
+
+   
+  

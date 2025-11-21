@@ -154,7 +154,8 @@
 <script>
   async function carregarDepoimentos() {
     try {
-      const resposta = await fetch("https://script.google.com/macros/s/AKfycbwRyjsQyfFJTgvhQhMopnmnOuTeIiz67Yn46NSmNVGEYPZHh4j3ed36s0rES2WBN-s-xw/exec");
+      const resposta = await fetch("https://script.google.com/macros/s/AKfycbwRyjsQyfFJTgvhQhMopnmnOuTeIiz67Yn46NSmNVGEYPZHh4j3ed36s0rES2WBN-s-xw/exec")
+
       const dados = await resposta.json();
       const area = document.getElementById("lista-depoimentos");
       area.innerHTML = "";

@@ -152,30 +152,35 @@
 <a id="zap" href="https://wa.me/556696139472" target="_blank">💬</a>
 
 <script>
-  async function carregarDepoimentos() {
-    try {
-      const resposta = await fetch("https://script.google.com/macros/s/AKfycbwRyjsQyfFJTgvhQhMopnmnOuTeIiz67Yn46NSmNVGEYPZHh4j3ed36s0rES2WBN-s-xw/exec");
-      const dados = await resposta.json();
-      const area = document.getElementById("lista-depoimentos");
-      area.innerHTML = "";
+  async function <script>
+  // Carrega os depoimentos da API do Google Apps Script
+  fetch("https://script.google.com/macros/s/AKfycbwRyjsQyfFJTgvhQhMopnmnOuTeIiz67Yn46NSmNVGEYPZHh4j3ed36s0rES2WBN-s-xw/exec")
+    .then(response => response.json())
+    .then(data => {
+      const container = document.getElementById("depoimentos-container");
+      container.innerHTML = ""; // limpa antes de colocar
 
-      dados.forEach(item => {
+      if (!data || data.length === 0) {
+        container.innerHTML = "<p>Nenhum depoimento encontrado.</p>";
+        return;
+      }
+
+      data.forEach(item => {
         const card = document.createElement("div");
         card.className = "depoimento-card";
+
         card.innerHTML = `
-          <p>“${item.texto}”</p>
-          <strong>— ${item.nome} (${item.nota})</strong>
+          <h3>${item.nome}</h3>
+          <p class="nota">⭐ ${item.nota}</p>
+          <p class="texto">${item.texto}</p>
         `;
-        area.appendChild(card);
+
+        container.appendChild(card);
       });
-    } catch (erro) {
-      document.getElementById("lista-depoimentos").innerHTML = "<p>Erro ao carregar depoimentos.</p>";
-      console.error(erro);
-    }
-  }
-
-  carregarDepoimentos();
+    })
+    .catch(error => {
+      console.error("Erro ao carregar depoimentos:", error);
+      document.getElementById("depoimentos-container").innerHTML =
+        "<p>Erro ao carregar depoimentos.</p>";
+    });
 </script>
-
-</body>
-</html>
